@@ -1,0 +1,113 @@
+pico-8 cartridge // http://www.pico-8.com
+version 43
+__lua__
+function _init()
+	stars={}
+	
+	--set up stars
+	stars={}
+	
+	for i=1,100 do
+		add(stars,make_star())
+	end
+	
+	--set up spaceship
+	ship={
+		x=64,
+		y=110,
+		speed=2,
+	}
+
+--set bullets
+	bullets={}
+	
+	
+end
+
+
+
+function _update60()
+	--update stars
+	for s in all(stars) do
+		s.y=s.y+s.speed
+		s.y=s.y%128
+	end
+	
+	--update bullets
+	for b in all(bullets) do
+		b.y-=b.speed
+		b.life-=1
+		if b.life<=0 then
+			del(bullets,b)
+		end
+	end
+
+	--update ship
+	if(btn(⬅️)) ship.x-=ship.speed
+	if(btn(➡️)) ship.x+=ship.speed
+	if(btn(⬆️)) ship.y-=ship.speed
+	if(btn(⬇️)) ship.y+=ship.speed
+	
+	if btnp(❎) then
+		add(
+		bullets,
+		make_bullet(ship.x,ship.y-4)
+		
+		
+		
+		)
+	end
+end
+
+function _draw()
+	cls()
+	for s in all(stars) do
+		pset(s.x,s.y,s.c)
+	end
+	
+	--draw ship
+	spr(2,ship.x-4,ship.y-4)
+	
+	--draw bullets
+	for b in all(bullets) do
+		spr(3,b.x-4,b.y-4)
+	end
+end
+-->8
+--stars
+
+function make_star()
+	local s={
+		x=rnd(128),
+		y=rnd(128),
+		c=rnd({7,6,1,13}),
+		speed=rnd(1)+1,
+	
+	}
+	
+	return s
+end
+
+
+-->8
+--bullets
+
+function make_bullet(x,y)
+	local b={
+		x=x,
+		y=y,
+		speed=3,
+		life=30,
+	}
+	
+	return b
+end
+__gfx__
+00000000077777700008800000aaaa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000771cc177000880000a7799a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+007007007c1cc1c700066000a977999a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000770007cceecc700077000a999995a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000770007cccccc700877800a999995a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+007007007ecccce70a8888a0aa99955a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000077eeee778a8228a80a5555a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000077777708002200800aaaa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
